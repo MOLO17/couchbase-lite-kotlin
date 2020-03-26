@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package com.molo17.couchbase.lite.models
+package com.molo17.couchbase.lite.domain
 
-class GeoDto(map: Map<String, Any?>) : LatLong {
-    override val lat: Double by map
-    override val long: Double get() = lon
-    val lon: Double by map
+import kotlinx.coroutines.flow.Flow
 
-    companion object : MapBuilder<GeoDto>(::GeoDto)
+/**
+ * Created by Damiano Giusti on 26/03/2020.
+ */
+interface HotelsRepository {
+
+    fun getHotels(): Flow<List<Hotel>>
 }

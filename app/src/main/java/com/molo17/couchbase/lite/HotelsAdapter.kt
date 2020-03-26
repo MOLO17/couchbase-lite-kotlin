@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.molo17.couchbase.lite.databinding.LayoutHotelCellBinding
-import com.molo17.couchbase.lite.models.Hotel
+import com.molo17.couchbase.lite.domain.Hotel
 
 /**
  * Created by Damiano Giusti on 26/03/2020.

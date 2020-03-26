@@ -23,7 +23,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.molo17.couchbase.lite.databinding.ActivityMainBinding
-import com.molo17.couchbase.lite.models.Hotel
+import com.molo17.couchbase.lite.domain.Hotel
 
 /**
  * Created by Damiano Giusti on 19/03/2020.

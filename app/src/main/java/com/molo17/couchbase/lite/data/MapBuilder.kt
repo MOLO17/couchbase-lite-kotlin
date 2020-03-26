@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.molo17.couchbase.lite.models
+package com.molo17.couchbase.lite.data
 
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty

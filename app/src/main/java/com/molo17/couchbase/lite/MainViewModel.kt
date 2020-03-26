@@ -19,28 +19,19 @@ package com.molo17.couchbase.lite
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.couchbase.lite.Database
-import com.molo17.couchbase.lite.models.Hotel
-import com.molo17.couchbase.lite.models.HotelDto
-import com.molo17.couchbase.lite.models.hotelMapper
+import com.molo17.couchbase.lite.domain.Hotel
+import com.molo17.couchbase.lite.domain.HotelsRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
 
 /**
  * Created by Damiano Giusti on 19/03/2020.
  */
-class MainViewModel(private val database: Database) : ViewModel() {
+class MainViewModel(private val hotelsRepository: HotelsRepository) : ViewModel() {
 
     private val hotelsLiveData by lazy(LazyThreadSafetyMode.NONE) {
-        select(all())
-            .from(database)
-            .where { HotelDto.KEY_TYPE equalTo HotelDto.TYPE }
-            .orderBy { HotelDto.KEY_NAME.ascending() }
-            .asFlow()
-            .debounce(timeoutMillis = 500) // Debounce results in case of first sync.
-            .map { resultSet -> resultSet.toObjects(hotelMapper()) }
+        hotelsRepository
+            .getHotels()
             .filter { it.isNotEmpty() }
             .asLiveData(Dispatchers.IO)
     }

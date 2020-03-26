@@ -14,19 +14,15 @@
  * limitations under the License.
  */
 
-package com.molo17.couchbase.lite
+package com.molo17.couchbase.lite.data.models
 
-import android.app.Application
-import com.couchbase.lite.CouchbaseLite
+import com.molo17.couchbase.lite.domain.LatLong
+import com.molo17.couchbase.lite.data.MapBuilder
 
-/**
- * Created by Damiano Giusti on 19/03/2020.
- */
-class MainApp : Application() {
+class GeoDto(map: Map<String, Any?>) : LatLong {
+    override val lat: Double by map
+    override val long: Double get() = lon
+    val lon: Double by map
 
-    override fun onCreate() {
-        super.onCreate()
-        CouchbaseLite.init(this)
-        DependencyContainer.init()
-    }
+    companion object : MapBuilder<GeoDto>(::GeoDto)
 }

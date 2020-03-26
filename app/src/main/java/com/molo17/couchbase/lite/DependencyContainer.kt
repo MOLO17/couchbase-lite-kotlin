@@ -25,6 +25,8 @@ import com.couchbase.lite.DatabaseConfiguration
 import com.couchbase.lite.Replicator
 import com.couchbase.lite.ReplicatorConfiguration
 import com.couchbase.lite.URLEndpoint
+import com.molo17.couchbase.lite.data.CouchbaseHotelRepository
+import com.molo17.couchbase.lite.domain.HotelsRepository
 import java.net.URI
 
 /**
@@ -40,7 +42,7 @@ object DependencyContainer : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return when (modelClass) {
-            MainViewModel::class.java -> MainViewModel(database)
+            MainViewModel::class.java -> MainViewModel(hotelsRepository)
             else -> error("${modelClass.simpleName} not handled in DependencyContainer")
         } as T
     }
@@ -49,6 +51,10 @@ object DependencyContainer : ViewModelProvider.Factory {
     // Private dependencies
     ///////////////////////////////////////////////////////////////////////////
 
+    private val hotelsRepository: HotelsRepository by lazy {
+        CouchbaseHotelRepository(databaseProvider = { database })
+    }
+
     private val database by lazy {
         Database("database.db", DatabaseConfiguration())
     }
@@ -56,7 +62,8 @@ object DependencyContainer : ViewModelProvider.Factory {
     private val replicator by lazy {
         val url = URLEndpoint(URI.create(BuildConfig.REPLICATOR_URL))
         val config = ReplicatorConfiguration(database, url).apply {
-            authenticator = BasicAuthenticator(BuildConfig.REPLICATOR_USER, BuildConfig.REPLICATOR_PWD)
+            authenticator =
+                BasicAuthenticator(BuildConfig.REPLICATOR_USER, BuildConfig.REPLICATOR_PWD)
         }
         Replicator(config)
     }

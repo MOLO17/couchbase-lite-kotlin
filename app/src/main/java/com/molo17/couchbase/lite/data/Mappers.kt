@@ -14,15 +14,23 @@
  * limitations under the License.
  */
 
-package com.molo17.couchbase.lite.models
+package com.molo17.couchbase.lite.data
 
 import com.molo17.couchbase.lite.BuildConfig
+import com.molo17.couchbase.lite.data.models.HotelDto
+import com.molo17.couchbase.lite.domain.Hotel
 
 /**
  * Created by Damiano Giusti on 26/03/2020.
  */
 
-fun hotelMapper(): (Map<String, Any?>) -> Hotel = { map -> hotelDtoToHotel(HotelDto(map)) }
+fun hotelMapper(): (Map<String, Any?>) -> Hotel = { map ->
+    hotelDtoToHotel(
+        HotelDto(
+            map
+        )
+    )
+}
 
 fun hotelDtoToHotel(dto: HotelDto): Hotel {
     val address = buildString {
@@ -38,7 +46,14 @@ fun hotelDtoToHotel(dto: HotelDto): Hotel {
         description = dto.description,
         address = address,
         location = dto.geo,
-        imageUrl = dto.geo.run { MAP_URL.format("$lat,$long", lat, long, BuildConfig.MAPS_API_KEY) },
+        imageUrl = dto.geo.run {
+            MAP_URL.format(
+                "$lat,$long",
+                lat,
+                long,
+                BuildConfig.MAPS_API_KEY
+            )
+        },
         rating = if (dto.reviews.isEmpty()) null
         else dto.reviews.map { it.ratings.Overall }.average()
     )

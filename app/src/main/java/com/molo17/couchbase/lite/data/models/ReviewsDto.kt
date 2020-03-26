@@ -14,22 +14,31 @@
  * limitations under the License.
  */
 
-package com.molo17.couchbase.lite.models
+package com.molo17.couchbase.lite.data.models
+
+import com.molo17.couchbase.lite.data.MapBuilder
 
 /**
  * Created by Damiano Giusti on 26/03/2020.
  */
-data class Hotel(
-    val identifier: String,
-    val name: String,
-    val description: String,
-    val address: String,
-    val location: LatLong,
-    val imageUrl: String?,
-    val rating: Double?
-)
+class ReviewsDto(map: Map<String, Any?>) {
 
-interface LatLong {
-    val lat: Double
-    val long: Double
+    val author: String by map
+    val content: String by map
+    val date: String by map
+    val ratings: RatingDto by RatingDto.asMap(map)
+
+    companion object: MapBuilder<ReviewsDto>(::ReviewsDto)
+
+    class RatingDto(map: Map<String, Any?>) {
+        val Overall: Int by map
+        val Cleanliness: Int by map
+        val Location: Int by map
+        val Service: Int by map
+        val Value: Int by map
+
+        companion object: MapBuilder<RatingDto>(
+            ReviewsDto::RatingDto
+        )
+    }
 }

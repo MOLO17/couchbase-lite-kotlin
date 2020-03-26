@@ -14,22 +14,22 @@
  * limitations under the License.
  */
 
-package com.molo17.couchbase.lite.models
+package com.molo17.couchbase.lite.domain
 
-class HotelDto(map: Map<String, Any?>) {
-    val id: Long by map
-    val name: String by map
-    val description: String by map
-    val phone: String by map
-    val address: String? by map
-    val city: String? by map
-    val country: String? by map
-    val geo: GeoDto by GeoDto.asMap(map)
-    val reviews: List<ReviewsDto> by ReviewsDto.asList(map)
+/**
+ * Created by Damiano Giusti on 26/03/2020.
+ */
+data class Hotel(
+    val identifier: String,
+    val name: String,
+    val description: String,
+    val address: String,
+    val location: LatLong,
+    val imageUrl: String?,
+    val rating: Double?
+)
 
-    companion object {
-        const val KEY_NAME = "name"
-        const val KEY_TYPE = "type"
-        const val TYPE = "hotel"
-    }
+interface LatLong {
+    val lat: Double
+    val long: Double
 }
