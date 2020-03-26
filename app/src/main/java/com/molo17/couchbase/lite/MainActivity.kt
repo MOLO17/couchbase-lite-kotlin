@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         views.hotelsRecyclerView.layoutManager = LinearLayoutManager(this)
         views.hotelsRecyclerView.adapter = adapter
 
-        viewModel.users().observe(this, Observer(this::onHotels))
+        viewModel.hotels().observe(this, Observer(this::onHotels))
     }
 
     private fun onHotels(hotels: List<Hotel>) {

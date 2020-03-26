@@ -39,11 +39,11 @@ class MainViewModel(private val database: Database) : ViewModel() {
             .where { HotelDto.KEY_TYPE equalTo HotelDto.TYPE }
             .orderBy { HotelDto.KEY_NAME.ascending() }
             .asFlow()
-            .debounce(500) // Debounce results in case of first sync.
+            .debounce(timeoutMillis = 500) // Debounce results in case of first sync.
             .map { resultSet -> resultSet.toObjects(hotelMapper()) }
             .filter { it.isNotEmpty() }
             .asLiveData(Dispatchers.IO)
     }
 
-    fun users(): LiveData<List<Hotel>> = hotelsLiveData
+    fun hotels(): LiveData<List<Hotel>> = hotelsLiveData
 }

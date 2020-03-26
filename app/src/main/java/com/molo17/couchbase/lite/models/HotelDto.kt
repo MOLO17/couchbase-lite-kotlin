@@ -16,7 +16,7 @@
 
 package com.molo17.couchbase.lite.models
 
-class HotelDto(private val map: Map<String, Any?>) {
+class HotelDto(map: Map<String, Any?>) {
     val id: Long by map
     val name: String by map
     val description: String by map
@@ -26,14 +26,6 @@ class HotelDto(private val map: Map<String, Any?>) {
     val country: String? by map
     val geo: GeoDto by GeoDto.asMap(map)
     val reviews: List<ReviewsDto> by ReviewsDto.asList(map)
-
-    override fun equals(other: Any?): Boolean {
-        return other is HotelDto && map == other.map
-    }
-
-    override fun hashCode(): Int {
-        return map.hashCode()
-    }
 
     companion object {
         const val KEY_NAME = "name"
