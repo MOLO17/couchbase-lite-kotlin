@@ -17,11 +17,16 @@
 package com.molo17.couchbase.lite
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.couchbase.lite.Database
 import com.couchbase.lite.DatabaseConfiguration
+import com.couchbase.lite.Replicator
+import com.couchbase.lite.ReplicatorConfiguration
+import com.couchbase.lite.URLEndpoint
 import kotlinx.coroutines.Dispatchers
+import java.net.URI
 
 /**
  * Created by Damiano Giusti on 19/03/2020.
@@ -29,7 +34,11 @@ import kotlinx.coroutines.Dispatchers
 class MainViewModel : ViewModel() {
 
     private val database by lazy(LazyThreadSafetyMode.NONE) {
-        Database("database.db", DatabaseConfiguration())
+        Database("database.db", DatabaseConfiguration()).also { database ->
+            val url = URLEndpoint(URI.create(BuildConfig.REPLICATOR_URL))
+            val config = ReplicatorConfiguration(database, url)
+            Replicator(config).bindToLifecycle(ProcessLifecycleOwner.get().lifecycle)
+        }
     }
 
     private val usersLiveData by lazy(LazyThreadSafetyMode.NONE) {
