@@ -62,8 +62,7 @@ object DependencyContainer : ViewModelProvider.Factory {
     private val replicator by lazy {
         val url = URLEndpoint(URI.create(BuildConfig.REPLICATOR_URL))
         val config = ReplicatorConfiguration(database, url).apply {
-            authenticator =
-                BasicAuthenticator(BuildConfig.REPLICATOR_USER, BuildConfig.REPLICATOR_PWD)
+            authenticator = BasicAuthenticator(BuildConfig.REPLICATOR_USER, BuildConfig.REPLICATOR_PWD)
         }
         Replicator(config)
     }

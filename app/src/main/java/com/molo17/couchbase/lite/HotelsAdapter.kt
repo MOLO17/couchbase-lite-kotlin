@@ -36,7 +36,6 @@ class HotelsAdapter: ListAdapter<Hotel, HotelViewHolder>(HotelDiffCallback) {
             .inflate(R.layout.layout_hotel_cell, parent, false)
             .let(::HotelViewHolder)
 
-
     override fun onBindViewHolder(holder: HotelViewHolder, position: Int) {
         val hotel = getItem(position) ?: return
         holder.bind(hotel)

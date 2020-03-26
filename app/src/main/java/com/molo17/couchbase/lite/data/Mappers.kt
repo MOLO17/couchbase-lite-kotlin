@@ -25,11 +25,7 @@ import com.molo17.couchbase.lite.domain.Hotel
  */
 
 fun hotelMapper(): (Map<String, Any?>) -> Hotel = { map ->
-    hotelDtoToHotel(
-        HotelDto(
-            map
-        )
-    )
+    hotelDtoToHotel(HotelDto(map))
 }
 
 fun hotelDtoToHotel(dto: HotelDto): Hotel {
@@ -47,12 +43,7 @@ fun hotelDtoToHotel(dto: HotelDto): Hotel {
         address = address,
         location = dto.geo,
         imageUrl = dto.geo.run {
-            MAP_URL.format(
-                "$lat,$long",
-                lat,
-                long,
-                BuildConfig.MAPS_API_KEY
-            )
+            MAP_URL.format("$lat,$long", lat, long, BuildConfig.MAPS_API_KEY)
         },
         rating = if (dto.reviews.isEmpty()) null
         else dto.reviews.map { it.ratings.Overall }.average()
