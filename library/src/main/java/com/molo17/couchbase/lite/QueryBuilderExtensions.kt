@@ -32,6 +32,9 @@ inline infix fun From.where(builder: WhereBuilder.() -> Expression) = where(Wher
 
 inline fun Where.orderBy(builder: OrderByBuilder.() -> Unit) = orderBy(*OrderByBuilder().apply(builder).orderings())
 
+inline fun Where.limit(count: Int, offset: Int? = null) =
+    limit(Expression.intValue(count), offset?.let(Expression::intValue))
+
 inline fun OrderBy.limit(count: Int, offset: Int? = null) =
     limit(Expression.intValue(count), offset?.let(Expression::intValue))
 
