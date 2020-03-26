@@ -73,6 +73,7 @@ internal class ReplicatorLifecycleObserver(
         when (event) {
             Lifecycle.Event.ON_RESUME -> replicator.start()
             Lifecycle.Event.ON_PAUSE -> replicator.stop()
+            Lifecycle.Event.ON_DESTROY -> source.lifecycle.removeObserver(this)
             else -> { } // ignored.
         }
     }
