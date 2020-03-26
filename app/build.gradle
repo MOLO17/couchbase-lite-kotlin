@@ -14,10 +14,10 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "REPLICATOR_URL", "\"ws://${property("couchbase.host")}:4984/travel-sample\"")
-        buildConfigField("String", "REPLICATOR_USER", "\"${property("couchbase.user")}\"")
-        buildConfigField("String", "REPLICATOR_PWD", "\"${property("couchbase.password")}\"")
-        buildConfigField("String", "MAPS_API_KEY", "\"${property("couchbase.mapsApiKey")}\"")
+        buildConfigField("String", "REPLICATOR_URL", "\"ws://${findProperty("couchbase.host") ?: "localhost"}:4984/travel-sample\"")
+        buildConfigField("String", "REPLICATOR_USER", "\"${findProperty("couchbase.user") ?: ""}\"")
+        buildConfigField("String", "REPLICATOR_PWD", "\"${findProperty("couchbase.password") ?: ""}\"")
+        buildConfigField("String", "MAPS_API_KEY", "\"${findProperty("couchbase.mapsApiKey") ?: ""}\"")
     }
 
     buildTypes {
