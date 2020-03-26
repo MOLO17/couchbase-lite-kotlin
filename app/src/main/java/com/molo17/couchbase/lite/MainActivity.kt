@@ -19,43 +19,37 @@ package com.molo17.couchbase.lite
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.molo17.couchbase.lite.databinding.ActivityMainBinding
+import com.molo17.couchbase.lite.models.Hotel
 
 /**
  * Created by Damiano Giusti on 19/03/2020.
  */
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel by viewModels<MainViewModel>()
+    private val viewModel by viewModels<MainViewModel>(DependencyContainer())
     private lateinit var views: ActivityMainBinding
+
+    private val adapter by lazy { HotelsAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         views = ActivityMainBinding.inflate(layoutInflater)
         setContentView(views.root)
 
-        viewModel.users().observe(this, Observer(this::onUsers))
+        views.hotelsRecyclerView.layoutManager = LinearLayoutManager(this)
+        views.hotelsRecyclerView.adapter = adapter
+
+        viewModel.users().observe(this, Observer(this::onHotels))
     }
 
-    private fun onUsers(users: List<User>) {
-        val displayableUsers = users.joinToString(
-            separator = "\n\n",
-            transform = this::userToString
-        )
-
-        views.usersTextView.text = displayableUsers
+    private fun onHotels(hotels: List<Hotel>) {
+        views.hotelsPlaceholderTextView.isVisible = false
+        adapter.submitList(hotels)
     }
 
-    private fun userToString(user: User) = buildString {
-        append("Name: ")
-        append(user.name)
-        appendln()
-        append("Surname: ")
-        append(user.surname)
-        appendln()
-        append("Age: ")
-        append(user.age)
-    }
 }
 

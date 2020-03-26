@@ -14,7 +14,10 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "REPLICATOR_URL", "\"\"")
+        buildConfigField("String", "REPLICATOR_URL", "\"ws://${property("couchbase.host")}:4984/travel-sample\"")
+        buildConfigField("String", "REPLICATOR_USER", "\"${property("couchbase.user")}\"")
+        buildConfigField("String", "REPLICATOR_PWD", "\"${property("couchbase.password")}\"")
+        buildConfigField("String", "MAPS_API_KEY", "\"${property("couchbase.mapsApiKey")}\"")
     }
 
     buildTypes {
@@ -47,12 +50,14 @@ dependencies {
     implementation project(":library")
 
     implementation "androidx.appcompat:appcompat:1.1.0"
-    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation "androidx.core:core-ktx:1.2.0"
     implementation "androidx.activity:activity-ktx:1.1.0"
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
     implementation "androidx.constraintlayout:constraintlayout:1.1.3"
+    implementation "com.github.bumptech.glide:glide:4.11.0"
 
     testImplementation libraries.unitTests
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

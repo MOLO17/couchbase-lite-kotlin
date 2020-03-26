@@ -17,53 +17,33 @@
 package com.molo17.couchbase.lite
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.couchbase.lite.Database
-import com.couchbase.lite.DatabaseConfiguration
-import com.couchbase.lite.Replicator
-import com.couchbase.lite.ReplicatorConfiguration
-import com.couchbase.lite.URLEndpoint
+import com.molo17.couchbase.lite.models.Hotel
+import com.molo17.couchbase.lite.models.HotelDto
+import com.molo17.couchbase.lite.models.hotelMapper
 import kotlinx.coroutines.Dispatchers
-import java.net.URI
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 
 /**
  * Created by Damiano Giusti on 19/03/2020.
  */
-class MainViewModel : ViewModel() {
+class MainViewModel(private val database: Database) : ViewModel() {
 
-    private val database by lazy(LazyThreadSafetyMode.NONE) {
-        Database("database.db", DatabaseConfiguration()).also { database ->
-            val url = URLEndpoint(URI.create(BuildConfig.REPLICATOR_URL))
-            val config = ReplicatorConfiguration(database, url)
-            Replicator(config).bindToLifecycle(ProcessLifecycleOwner.get().lifecycle)
-        }
-    }
-
-    private val usersLiveData by lazy(LazyThreadSafetyMode.NONE) {
-        select(User.KEY_NAME, User.KEY_SURNAME, User.KEY_AGE)
+    private val hotelsLiveData by lazy(LazyThreadSafetyMode.NONE) {
+        select(all())
             .from(database)
-            .where { User.KEY_TYPE equalTo User.TYPE }
-            .orderBy { User.KEY_NAME.ascending() }
-            .asObjectsFlow(::User)
+            .where { HotelDto.KEY_TYPE equalTo HotelDto.TYPE }
+            .orderBy { HotelDto.KEY_NAME.ascending() }
+            .asFlow()
+            .debounce(500) // Debounce results in case of first sync.
+            .map { resultSet -> resultSet.toObjects(hotelMapper()) }
+            .filter { it.isNotEmpty() }
             .asLiveData(Dispatchers.IO)
     }
 
-    fun users(): LiveData<List<User>> = usersLiveData
-
-}
-
-class User(map: Map<String, Any?>) {
-    val name: String by map
-    val surname: String by map
-    val age: Int by map
-
-    companion object {
-        const val KEY_NAME = "name"
-        const val KEY_SURNAME = "surname"
-        const val KEY_AGE = "surname"
-        const val KEY_TYPE = "type"
-        const val TYPE = "user"
-    }
+    fun users(): LiveData<List<Hotel>> = hotelsLiveData
 }

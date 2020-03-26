@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">M17 Couchbase Lite Kotlin</string>
+    <string name="hotel_data_loading">Hotel data loading in progress…</string>
+    <string name="hotel_ratings">Rating:</string>
 </resources>

@@ -14,20 +14,22 @@
  * limitations under the License.
  */
 
-package com.molo17.couchbase.lite
-
-import android.app.Application
-import androidx.lifecycle.ProcessLifecycleOwner
-import com.couchbase.lite.CouchbaseLite
+package com.molo17.couchbase.lite.models
 
 /**
- * Created by Damiano Giusti on 19/03/2020.
+ * Created by Damiano Giusti on 26/03/2020.
  */
-class MainApp : Application() {
+data class Hotel(
+    val identifier: String,
+    val name: String,
+    val description: String,
+    val address: String,
+    val location: LatLong,
+    val imageUrl: String?,
+    val rating: Double?
+)
 
-    override fun onCreate() {
-        super.onCreate()
-        CouchbaseLite.init(this)
-        DependencyContainer.init()
-    }
+interface LatLong {
+    val lat: Double
+    val long: Double
 }
