@@ -89,7 +89,7 @@ val document = MutableDocument {
   "type" to "user"
 }
 
-database.insert(document)
+database.save(document)
 ```
 
 ### Query Flow support
@@ -114,7 +114,7 @@ As plus, you receive automatic LiveQuery cancellation when the Flow tears down.
 Thanks to [Map delegation](https://kotlinlang.org/docs/reference/delegated-properties.html#storing-properties-in-a-map),
 mapping a ResultSet to a Kotlin class has never been so easy.
 
-The library provides the `ResultSet.toObjects` and `Query.asObjectsFlow()`
+The library provides the `ResultSet.toObjects()` and `Query.asObjectsFlow()`
 extensions for helping to map results given a factory lambda.
 
 Such factory lambda accepts a `Map<String, Any?>` and returns an instance
@@ -157,7 +157,7 @@ Also, a new useful syntax has been introduced when performing batch operations:
 
 ```kotlin
 database.doInBatch {
-  insert(document)
+  save(document)
   delete(otherDocument)
 }
 ```
