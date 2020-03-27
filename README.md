@@ -16,6 +16,25 @@ fluent listener API, introducing first-class support for
 [Kotlin Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) and the
 [Flow API](https://kotlinlang.org/docs/reference/coroutines/flow.html).
 
+## Installing
+
+Add JitPack as repository for your project:
+
+```groovy
+allprojects {
+    repositories {
+        ...
+        maven { url "https://jitpack.io" }
+    }
+}
+```
+
+And then to your module `build.gradle` file:
+
+```groovy
+implementation "com.github.molo17:couchbase-lite-kotlin:<latest-version>"
+```
+
 ## Contents
 
 Here are the main features that Couchbase Lite Kotlin provides for
