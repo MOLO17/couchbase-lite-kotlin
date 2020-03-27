@@ -40,7 +40,7 @@ fun Database.changesFlow(): Flow<DatabaseChange> = callbackFlow {
  */
 fun Database.documentChangesFlow(documentId: String): Flow<DocumentChange> = callbackFlow {
     val token = addDocumentChangeListener(documentId) { change -> offer(change) }
-    removeChangeListener(token)
+    awaitClose { removeChangeListener(token) }
 }
 
 /**
