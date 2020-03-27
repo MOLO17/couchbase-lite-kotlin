@@ -32,6 +32,9 @@ inline infix fun From.where(builder: WhereBuilder.() -> Expression) = where(Wher
 
 inline fun Where.orderBy(builder: OrderByBuilder.() -> Unit) = orderBy(*OrderByBuilder().apply(builder).orderings())
 
+inline fun Where.limit(count: Int, offset: Int? = null) =
+    limit(Expression.intValue(count), offset?.let(Expression::intValue))
+
 inline fun OrderBy.limit(count: Int, offset: Int? = null) =
     limit(Expression.intValue(count), offset?.let(Expression::intValue))
 
@@ -63,7 +66,7 @@ inline fun Expression.greaterThan(boolean: Boolean) = greaterThan(Expression.boo
 inline fun Expression.greaterThan(date: Date) = greaterThan(Expression.date(date))
 
 inline fun Expression.greaterThanOrEqualTo(string: String) = greaterThanOrEqualTo(Expression.string(string))
-inline fun Expression.greaterThanOrEqualTo(int: Int) = greaterThanOrEqualTo(Expression.intValue(int))
+inline fun Expression.greaterThanOrEqualTo(int: Int) = greaterThanOrEqualTo(Expression.value(int))
 inline fun Expression.greaterThanOrEqualTo(long: Long) = greaterThanOrEqualTo(Expression.longValue(long))
 inline fun Expression.greaterThanOrEqualTo(float: Float) = greaterThanOrEqualTo(Expression.floatValue(float))
 inline fun Expression.greaterThanOrEqualTo(double: Double) = greaterThanOrEqualTo(Expression.doubleValue(double))
