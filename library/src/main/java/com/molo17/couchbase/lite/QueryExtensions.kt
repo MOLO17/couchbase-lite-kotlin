@@ -68,7 +68,7 @@ private fun Query.asQueryFlow(): Flow<QueryChange> = callbackFlow {
             throw queryChange.error
         }
     }
-    awaitClose { removeChangeListener(token) }
     // Run the query.
     execute()
+    awaitClose { removeChangeListener(token) }
 }

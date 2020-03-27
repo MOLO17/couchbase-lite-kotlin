@@ -13,3 +13,15 @@ dependencies {
     testImplementation libraries.mockito
     testImplementation couchbaseLite
 }
+
+def mavPluginVersion = '1.0.3'
+apply from: "https://raw.githubusercontent.com/sky-uk/gradle-maven-plugin/${mavPluginVersion}/gradle-mavenizer.gradle"
+
+project.ext {
+    mavDevelopers = ["damiano": "Damiano Giusti"]
+    mavSiteUrl = "https://github.com/MOLO17/couchbase-lite-kotlin"
+    mavGitUrl = mavSiteUrl + '.git'
+    mavProjectName = 'Couchbase Lite Kotlin'
+    mavLibraryLicenses = ["Apache-2.0": 'http://www.apache.org/licenses/LICENSE-2.0.txt']
+    mavLibraryDescription = "Kotlin-friendly extensions for Couchbase Lite Android and Java SDKs."
+}
