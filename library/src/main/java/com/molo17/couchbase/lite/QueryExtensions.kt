@@ -20,6 +20,7 @@ import com.couchbase.lite.Query
 import com.couchbase.lite.QueryChange
 import com.couchbase.lite.ResultSet
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.map
@@ -63,7 +64,7 @@ fun <T : Any> Query.asObjectsFlow(
 private fun Query.asQueryFlow(): Flow<QueryChange> = callbackFlow {
     val token = addChangeListener { queryChange ->
         if (queryChange.error == null) {
-            offer(queryChange)
+            sendBlocking(queryChange)
         } else {
             throw queryChange.error
         }
