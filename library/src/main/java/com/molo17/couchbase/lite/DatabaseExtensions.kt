@@ -20,6 +20,7 @@ import com.couchbase.lite.Database
 import com.couchbase.lite.DatabaseChange
 import com.couchbase.lite.DocumentChange
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
@@ -29,7 +30,7 @@ import kotlinx.coroutines.flow.callbackFlow
  * @see Database.addChangeListener
  */
 fun Database.changesFlow(): Flow<DatabaseChange> = callbackFlow {
-    val token = addChangeListener { change -> offer(change) }
+    val token = addChangeListener { change -> sendBlocking(change) }
     awaitClose { removeChangeListener(token) }
 }
 
@@ -39,7 +40,7 @@ fun Database.changesFlow(): Flow<DatabaseChange> = callbackFlow {
  * @see Database.addDocumentChangeListener
  */
 fun Database.documentChangesFlow(documentId: String): Flow<DocumentChange> = callbackFlow {
-    val token = addDocumentChangeListener(documentId) { change -> offer(change) }
+    val token = addDocumentChangeListener(documentId) { change -> sendBlocking(change) }
     awaitClose { removeChangeListener(token) }
 }
 
