@@ -20,6 +20,7 @@ import com.couchbase.lite.Query
 import com.couchbase.lite.QueryChange
 import com.couchbase.lite.ResultSet
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.map
@@ -53,7 +54,7 @@ fun Query.asFlow(): Flow<ResultSet> = asQueryFlow().map { it.results }
  * @param factory the lambda used for creating object instances.
  */
 fun <T : Any> Query.asObjectsFlow(
-    factory: (Map<String, Any?>) -> T
+    factory: (Map<String, Any?>) -> T?
 ): Flow<List<T>> = asQueryFlow().map { queryChange -> queryChange.results.toObjects(factory) }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -63,7 +64,7 @@ fun <T : Any> Query.asObjectsFlow(
 private fun Query.asQueryFlow(): Flow<QueryChange> = callbackFlow {
     val token = addChangeListener { queryChange ->
         if (queryChange.error == null) {
-            offer(queryChange)
+            sendBlocking(queryChange)
         } else {
             throw queryChange.error
         }

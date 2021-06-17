@@ -23,6 +23,7 @@ import com.couchbase.lite.DocumentReplication
 import com.couchbase.lite.Replicator
 import com.couchbase.lite.ReplicatorChange
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
@@ -32,7 +33,7 @@ import kotlinx.coroutines.flow.callbackFlow
  * @see Replicator.addChangeListener
  */
 fun Replicator.changesFlow(): Flow<ReplicatorChange> = callbackFlow {
-    val token = addChangeListener { change -> offer(change) }
+    val token = addChangeListener { change -> sendBlocking(change) }
     awaitClose { removeChangeListener(token) }
 }
 
@@ -42,7 +43,7 @@ fun Replicator.changesFlow(): Flow<ReplicatorChange> = callbackFlow {
  * @see Replicator.addDocumentReplicationListener
  */
 fun Replicator.documentReplicationFlow(): Flow<DocumentReplication> = callbackFlow {
-    val token = addDocumentReplicationListener { replication -> offer(replication) }
+    val token = addDocumentReplicationListener { replication -> sendBlocking(replication) }
     awaitClose { removeChangeListener(token) }
 }
 

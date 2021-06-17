@@ -39,7 +39,7 @@ import com.couchbase.lite.ResultSet
  * @param factory lambda used for creating an object instance
  * @return a [List] of objects of type [T]
  */
-inline fun <T : Any> ResultSet.toObjects(factory: (Map<String, Any?>) -> T): List<T> =
+inline fun <T : Any> ResultSet.toObjects(factory: (Map<String, Any?>) -> T?): List<T> =
     mapNotNull { result ->
         result.run {
 
