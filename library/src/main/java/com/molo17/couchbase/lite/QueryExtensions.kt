@@ -54,7 +54,7 @@ fun Query.asFlow(): Flow<ResultSet> = asQueryFlow().map { it.results }
  * @param factory the lambda used for creating object instances.
  */
 fun <T : Any> Query.asObjectsFlow(
-    factory: (Map<String, Any?>) -> T
+    factory: (Map<String, Any?>) -> T?
 ): Flow<List<T>> = asQueryFlow().map { queryChange -> queryChange.results.toObjects(factory) }
 
 ///////////////////////////////////////////////////////////////////////////
