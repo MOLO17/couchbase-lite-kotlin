@@ -32,7 +32,7 @@ allprojects {
 And then to your module `build.gradle` file:
 
 ```groovy
-implementation "com.github.MOLO17:couchbase-lite-kotlin:1.0.0"
+implementation "com.github.MOLO17:couchbase-lite-kotlin:1.1.0"
 ```
 
 ## Contents
