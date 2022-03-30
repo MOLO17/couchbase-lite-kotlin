@@ -4,7 +4,7 @@ apply plugin: 'maven-publish'
 version = '1.1.0'
 
 dependencies {
-    def couchbaseLite = "com.couchbase.lite:couchbase-lite-java:2.7.0"
+    def couchbaseLite = "com.couchbase.lite:couchbase-lite-java:3.0.0"
 
     implementation libraries.kotlin
     implementation libraries.coroutines
