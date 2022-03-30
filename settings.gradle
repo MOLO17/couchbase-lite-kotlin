@@ -1,4 +1,8 @@
 rootProject.name='M17 Couchbase Lite Kotlin'
 include ':app'
+
 include ':library'
+project(':library').name = 'couchbase-lite-kotlin'
+
 include ':library-android'
+project(':library-android').name = 'couchbase-lite-android-ktx'
