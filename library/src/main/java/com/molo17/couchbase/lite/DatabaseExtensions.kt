@@ -21,6 +21,7 @@ import com.couchbase.lite.DatabaseChange
 import com.couchbase.lite.DocumentChange
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
+import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
@@ -30,7 +31,7 @@ import kotlinx.coroutines.flow.callbackFlow
  * @see Database.addChangeListener
  */
 fun Database.changesFlow(): Flow<DatabaseChange> = callbackFlow {
-    val token = addChangeListener { change -> sendBlocking(change) }
+    val token = addChangeListener { change -> trySendBlocking(change) }
     awaitClose { removeChangeListener(token) }
 }
 
@@ -40,7 +41,7 @@ fun Database.changesFlow(): Flow<DatabaseChange> = callbackFlow {
  * @see Database.addDocumentChangeListener
  */
 fun Database.documentChangesFlow(documentId: String): Flow<DocumentChange> = callbackFlow {
-    val token = addDocumentChangeListener(documentId) { change -> sendBlocking(change) }
+    val token = addDocumentChangeListener(documentId) { change -> trySendBlocking(change) }
     awaitClose { removeChangeListener(token) }
 }
 
@@ -56,4 +57,4 @@ fun Database.documentChangesFlow(documentId: String): Flow<DocumentChange> = cal
  *
  * @see Database.inBatch
  */
-inline fun Database.doInBatch(crossinline block: Database.() -> Unit) = inBatch { block() }
+inline fun <T : Exception>Database.doInBatch(crossinline block: Database.() -> Unit) = inBatch<T> { block() }
