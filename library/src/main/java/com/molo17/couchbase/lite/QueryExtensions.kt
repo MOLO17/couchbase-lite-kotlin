@@ -30,6 +30,7 @@ import kotlinx.coroutines.flow.mapNotNull
 /**
  * Returns a [Flow] that emits the Query [ResultSet] every time the underlying
  * data set changes.
+ * Consider using asKtxFlow() from Ktx library version with Android.
  *
  * If the query fails, the [Flow] throws an error.
  */
@@ -38,6 +39,7 @@ fun Query.asFlow(): Flow<ResultSet> = asQueryFlow().mapNotNull { it.results }
 /**
  * Returns a [Flow] that maps the Query [ResultSet] to instances of a class
  * that can be created using the given [factory] lambda.
+ * Consider using asKtxObjectsFlow() from Ktx library version with Android.
  *
  * Example of usage:
  *
@@ -57,7 +59,11 @@ fun Query.asFlow(): Flow<ResultSet> = asQueryFlow().mapNotNull { it.results }
  */
 fun <T : Any> Query.asObjectsFlow(
     factory: (Map<String, Any?>) -> T?
-): Flow<List<T>> = asQueryFlow().mapNotNull { queryChange -> queryChange.results?.toObjects(factory) }
+): Flow<List<T>> = asQueryFlow().mapToObjects(factory)
+
+fun <T : Any> Flow<QueryChange>.mapToObjects(
+    factory: (Map<String, Any?>) -> T?
+) = mapNotNull { queryChange -> queryChange.results?.toObjects(factory) }
 
 ///////////////////////////////////////////////////////////////////////////
 // Private functions
