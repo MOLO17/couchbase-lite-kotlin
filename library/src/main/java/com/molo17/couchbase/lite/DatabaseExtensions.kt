@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.callbackFlow
 
 /**
  * Returns a [Flow] for receiving the changes that occur in the database.
+ * Consider using databaseChangeFlow with Android Couchbase Lite Ktx SDK.
  *
  * @see Database.addChangeListener
  */
@@ -37,6 +38,7 @@ fun Database.changesFlow(): Flow<DatabaseChange> = callbackFlow {
 
 /**
  * Returns a [Flow] for receiving the changes that occur to the specified document.
+ * Consider using documentChangeFlow with Android Couchbase Lite Ktx SDK.
  *
  * @see Database.addDocumentChangeListener
  */
