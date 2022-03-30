@@ -25,5 +25,5 @@ project.ext {
     mavGitUrl = mavSiteUrl + '.git'
     mavProjectName = 'Couchbase Lite Kotlin'
     mavLibraryLicenses = ["Apache-2.0": 'http://www.apache.org/licenses/LICENSE-2.0.txt']
-    mavLibraryDescription = "Kotlin-friendly extensions for Couchbase Lite Android and Java SDKs."
+    mavLibraryDescription = "Kotlin-friendly extensions for Couchbase Lite Java SDKs."
 }
