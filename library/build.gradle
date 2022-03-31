@@ -2,6 +2,7 @@ apply plugin: 'kotlin'
 apply plugin: 'maven-publish'
 
 version = '1.1.0'
+group = 'com.github.MOLO17'
 
 dependencies {
     def couchbaseLite = "com.couchbase.lite:couchbase-lite-java:3.0.0"
