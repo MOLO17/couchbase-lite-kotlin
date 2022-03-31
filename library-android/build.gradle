@@ -46,7 +46,7 @@ dependencies {
     testImplementation couchbaseLite
 }
 
-def mavPluginVersion = '1.4.0'
+def mavPluginVersion = '1.5.0'
 apply from: "https://raw.githubusercontent.com/Fed93/gradle-maven-plugin/${mavPluginVersion}/gradle-mavenizer.gradle"
 
 project.ext {
