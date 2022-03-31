@@ -39,7 +39,7 @@ dependencies {
     implementation libraries.coroutines
     compileOnly libraries.lifecycle
     compileOnly couchbaseLite
-    implementation project(":couchbase-lite-kotlin")
+    api project(":couchbase-lite-kotlin")
 
     testImplementation libraries.unitTests
     testImplementation libraries.mockito
