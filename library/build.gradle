@@ -2,9 +2,10 @@ apply plugin: 'kotlin'
 apply plugin: 'maven-publish'
 
 version = '1.1.0'
+group = 'com.github.MOLO17'
 
 dependencies {
-    def couchbaseLite = "com.couchbase.lite:couchbase-lite-java:2.7.0"
+    def couchbaseLite = "com.couchbase.lite:couchbase-lite-java:3.0.0"
 
     implementation libraries.kotlin
     implementation libraries.coroutines
@@ -16,8 +17,8 @@ dependencies {
     testImplementation couchbaseLite
 }
 
-def mavPluginVersion = '1.0.3'
-apply from: "https://raw.githubusercontent.com/sky-uk/gradle-maven-plugin/${mavPluginVersion}/gradle-mavenizer.gradle"
+def mavPluginVersion = '1.5.0'
+apply from: "https://raw.githubusercontent.com/Fed93/gradle-maven-plugin/${mavPluginVersion}/gradle-mavenizer.gradle"
 
 project.ext {
     mavDevelopers = ["damiano": "Damiano Giusti", "federico": "Federico Monti"]
@@ -25,5 +26,7 @@ project.ext {
     mavGitUrl = mavSiteUrl + '.git'
     mavProjectName = 'Couchbase Lite Kotlin'
     mavLibraryLicenses = ["Apache-2.0": 'http://www.apache.org/licenses/LICENSE-2.0.txt']
-    mavLibraryDescription = "Kotlin-friendly extensions for Couchbase Lite Android and Java SDKs."
+    mavLibraryDescription = "Kotlin-friendly extensions for Couchbase Lite Java SDKs."
+    mavOrganizationName = "MOLO17 S.r.l."
+    mavOrganizationUrl = "https://molo17.com/"
 }

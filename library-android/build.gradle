@@ -1,0 +1,61 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
+}
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 31
+        version = '1.1.0'
+        group = 'com.github.MOLO17'
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+}
+
+dependencies {
+    def couchbaseLite = "com.couchbase.lite:couchbase-lite-android-ktx:3.0.0"
+
+    implementation libraries.kotlin
+    implementation libraries.coroutines
+    compileOnly libraries.lifecycle
+    compileOnly couchbaseLite
+    api project(":couchbase-lite-kotlin")
+
+    testImplementation libraries.unitTests
+    testImplementation libraries.mockito
+    testImplementation couchbaseLite
+}
+
+def mavPluginVersion = '1.5.0'
+apply from: "https://raw.githubusercontent.com/Fed93/gradle-maven-plugin/${mavPluginVersion}/gradle-mavenizer.gradle"
+
+project.ext {
+    mavDevelopers = ["federico": "Federico Monti"]
+    mavSiteUrl = "https://github.com/MOLO17/couchbase-lite-kotlin"
+    mavGitUrl = mavSiteUrl + '.git'
+    mavProjectName = 'Couchbase Lite Kotlin Android'
+    mavLibraryLicenses = ["Apache-2.0": 'http://www.apache.org/licenses/LICENSE-2.0.txt']
+    mavLibraryDescription = "Kotlin-friendly extensions for Couchbase Lite Android SDKs."
+    mavOrganizationName = "MOLO17 S.r.l."
+    mavOrganizationUrl = "https://molo17.com/"
+}
