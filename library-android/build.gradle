@@ -10,7 +10,7 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 31
-        version = '1.1.0'
+        version = '1.2.0'
         group = 'com.github.MOLO17'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
