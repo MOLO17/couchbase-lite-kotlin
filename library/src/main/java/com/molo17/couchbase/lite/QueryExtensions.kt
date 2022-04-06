@@ -21,21 +21,25 @@ import com.couchbase.lite.QueryChange
 import com.couchbase.lite.ResultSet
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
+import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 
 /**
  * Returns a [Flow] that emits the Query [ResultSet] every time the underlying
  * data set changes.
+ * Consider using asKtxFlow() from Ktx library version with Android.
  *
  * If the query fails, the [Flow] throws an error.
  */
-fun Query.asFlow(): Flow<ResultSet> = asQueryFlow().map { it.results }
+fun Query.asFlow(): Flow<ResultSet> = asQueryFlow().mapNotNull { it.results }
 
 /**
  * Returns a [Flow] that maps the Query [ResultSet] to instances of a class
  * that can be created using the given [factory] lambda.
+ * Consider using asKtxObjectsFlow() from Ktx library version with Android.
  *
  * Example of usage:
  *
@@ -55,7 +59,11 @@ fun Query.asFlow(): Flow<ResultSet> = asQueryFlow().map { it.results }
  */
 fun <T : Any> Query.asObjectsFlow(
     factory: (Map<String, Any?>) -> T?
-): Flow<List<T>> = asQueryFlow().map { queryChange -> queryChange.results.toObjects(factory) }
+): Flow<List<T>> = asQueryFlow().mapToObjects(factory)
+
+fun <T : Any> Flow<QueryChange>.mapToObjects(
+    factory: (Map<String, Any?>) -> T?
+) = mapNotNull { queryChange -> queryChange.results?.toObjects(factory) }
 
 ///////////////////////////////////////////////////////////////////////////
 // Private functions
@@ -64,9 +72,9 @@ fun <T : Any> Query.asObjectsFlow(
 private fun Query.asQueryFlow(): Flow<QueryChange> = callbackFlow {
     val token = addChangeListener { queryChange ->
         if (queryChange.error == null) {
-            sendBlocking(queryChange)
+            trySendBlocking(queryChange)
         } else {
-            throw queryChange.error
+            throw queryChange.error ?: IllegalStateException("Something went wrong with your query")
         }
     }
     // Run the query.

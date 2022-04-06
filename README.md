@@ -32,7 +32,13 @@ allprojects {
 And then to your module `build.gradle` file:
 
 ```groovy
-implementation "com.github.MOLO17:couchbase-lite-kotlin:1.1.0"
+implementation "com.github.MOLO17:couchbase-lite-kotlin:1.2.0"
+```
+
+For Android use
+
+```groovy
+implementation "com.github.MOLO17:couchbase-lite-android-ktx:1.2.0"
 ```
 
 ## Contents
@@ -114,7 +120,7 @@ As plus, you receive automatic LiveQuery cancellation when the Flow tears down.
 Thanks to [Map delegation](https://kotlinlang.org/docs/reference/delegated-properties.html#storing-properties-in-a-map),
 mapping a ResultSet to a Kotlin class has never been so easy.
 
-The library provides the `ResultSet.toObjects()` and `Query.asObjectsFlow()`
+The library provides the `ResultSet.toObjects()` and `Query.asObjectsFlow()` (with android version `Query.asKtxObjectsFlow()`)
 extensions for helping to map results given a factory lambda.
 
 Such factory lambda accepts a `Map<String, Any?>` and returns an instance

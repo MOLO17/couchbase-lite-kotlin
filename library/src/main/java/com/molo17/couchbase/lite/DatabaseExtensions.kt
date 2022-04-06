@@ -21,26 +21,29 @@ import com.couchbase.lite.DatabaseChange
 import com.couchbase.lite.DocumentChange
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
+import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
 /**
  * Returns a [Flow] for receiving the changes that occur in the database.
+ * Consider using databaseChangeFlow with Android Couchbase Lite Ktx SDK.
  *
  * @see Database.addChangeListener
  */
 fun Database.changesFlow(): Flow<DatabaseChange> = callbackFlow {
-    val token = addChangeListener { change -> sendBlocking(change) }
+    val token = addChangeListener { change -> trySendBlocking(change) }
     awaitClose { removeChangeListener(token) }
 }
 
 /**
  * Returns a [Flow] for receiving the changes that occur to the specified document.
+ * Consider using documentChangeFlow with Android Couchbase Lite Ktx SDK.
  *
  * @see Database.addDocumentChangeListener
  */
 fun Database.documentChangesFlow(documentId: String): Flow<DocumentChange> = callbackFlow {
-    val token = addDocumentChangeListener(documentId) { change -> sendBlocking(change) }
+    val token = addDocumentChangeListener(documentId) { change -> trySendBlocking(change) }
     awaitClose { removeChangeListener(token) }
 }
 
@@ -56,4 +59,4 @@ fun Database.documentChangesFlow(documentId: String): Flow<DocumentChange> = cal
  *
  * @see Database.inBatch
  */
-inline fun Database.doInBatch(crossinline block: Database.() -> Unit) = inBatch { block() }
+inline fun <T : Exception>Database.doInBatch(crossinline block: Database.() -> Unit) = inBatch<T> { block() }
