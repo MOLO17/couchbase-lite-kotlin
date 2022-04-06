@@ -10,8 +10,6 @@ android {
     defaultConfig {
         minSdk 21
         targetSdk 31
-        version = '1.2.0'
-        group = 'com.github.MOLO17'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
