@@ -13,6 +13,9 @@ buildscript {
 }
 
 allprojects {
+    version = '1.2.0'
+    group = 'com.github.MOLO17'
+
     repositories {
         google()
         mavenCentral()

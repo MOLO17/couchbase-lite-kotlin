@@ -46,7 +46,7 @@ dependencies {
     implementation libraries.coroutines
     implementation "com.couchbase.lite:couchbase-lite-android:2.7.0"
 
-    implementation project(":couchbase-lite-kotlin")
+    implementation project(":kotlin")
 
     implementation "androidx.appcompat:appcompat:1.1.0"
     implementation "androidx.core:core-ktx:1.2.0"
