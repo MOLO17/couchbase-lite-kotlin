@@ -77,7 +77,5 @@ private fun Query.asQueryFlow(): Flow<QueryChange> = callbackFlow {
             throw queryChange.error ?: IllegalStateException("Something went wrong with your query")
         }
     }
-    // Run the query.
-    execute()
     awaitClose { removeChangeListener(token) }
 }
