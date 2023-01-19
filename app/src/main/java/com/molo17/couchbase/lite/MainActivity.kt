@@ -30,7 +30,7 @@ import com.molo17.couchbase.lite.domain.Hotel
  */
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel by viewModels<MainViewModel>(DependencyContainer())
+    private val viewModel by viewModels<MainViewModel>(factoryProducer = DependencyContainer())
     private lateinit var views: ActivityMainBinding
 
     private val adapter by lazy { HotelsAdapter() }
