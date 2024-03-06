@@ -20,6 +20,7 @@ import com.couchbase.lite.*
 import com.molo17.couchbase.lite.mapToObjects
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.onEach
 
 /**
  * Returns a [Flow] that emits the Query [ResultSet] every time the underlying
@@ -27,7 +28,10 @@ import kotlinx.coroutines.flow.mapNotNull
  *
  * If the query fails, the [Flow] throws an error.
  */
-fun Query.asKtxFlow(): Flow<ResultSet> = queryChangeFlow().mapNotNull { it.results }
+fun Query.asKtxFlow(): Flow<ResultSet> =
+    queryChangeFlow()
+        .onEach { it.error?.let { error -> throw error } }
+        .mapNotNull { it.results }
 
 /**
  * Returns a [Flow] that maps the Query [ResultSet] to instances of a class

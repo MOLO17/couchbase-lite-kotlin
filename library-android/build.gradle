@@ -5,11 +5,10 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
-        minSdk 21
-        targetSdk 31
+        minSdk 22
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -31,9 +30,8 @@ android {
 }
 
 dependencies {
-    def couchbaseLite = "com.couchbase.lite:couchbase-lite-android-ktx:3.0.0"
+    def couchbaseLite = "com.couchbase.lite:couchbase-lite-android-ktx:3.0.5"
 
-    implementation libraries.kotlin
     implementation libraries.coroutines
     compileOnly libraries.lifecycle
     compileOnly couchbaseLite

@@ -1,13 +1,13 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.6.10'
+    ext.kotlin_version = '1.8.0'
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.2'
+        classpath 'com.android.tools.build:gradle:7.4.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -24,11 +24,10 @@ allprojects {
 
 ext {
     libraries = [
-        kotlin: "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
-        coroutines: "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0",
-        lifecycle: "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0",
+        coroutines: "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4",
+        lifecycle: "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1",
         unitTests: "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version",
-        mockito: "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
+        mockito: "org.mockito.kotlin:mockito-kotlin:4.1.0"
     ]
 }
 
