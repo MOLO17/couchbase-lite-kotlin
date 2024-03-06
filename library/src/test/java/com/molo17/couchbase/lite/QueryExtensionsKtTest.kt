@@ -46,7 +46,7 @@ class QueryExtensionsKtTest {
         val queryUnderTest = TestQuery(addChangeListenerCalled = { listener ->
             val queryChange = QueryChange(resultSet = expectedResultSet)
             listener.changed(queryChange)
-            object : ListenerToken {}
+            object : ListenerToken(mock(), mock()) {}
         })
 
         assertEquals(expectedResultSet, queryUnderTest.asFlow().first())
@@ -57,7 +57,7 @@ class QueryExtensionsKtTest {
         val queryUnderTest = TestQuery(addChangeListenerCalled = { listener ->
             val queryChange = QueryChange(error = TestException())
             listener.changed(queryChange)
-            object : ListenerToken {}
+            object : ListenerToken(mock(), mock()) {}
         })
 
         queryUnderTest

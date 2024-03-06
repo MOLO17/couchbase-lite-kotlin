@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         minSdk 22
@@ -27,10 +27,11 @@ android {
     kotlinOptions {
         jvmTarget = '11'
     }
+    namespace 'com.molo17.couchbase.lite.android.ktx'
 }
 
 dependencies {
-    def couchbaseLite = "com.couchbase.lite:couchbase-lite-android-ktx:3.0.5"
+    def couchbaseLite = "com.couchbase.lite:couchbase-lite-android-ktx:3.1.3"
 
     implementation libraries.coroutines
     compileOnly libraries.lifecycle
@@ -42,7 +43,7 @@ dependencies {
     testImplementation couchbaseLite
 }
 
-def mavPluginVersion = '1.5.0'
+def mavPluginVersion = '1.6.0'
 apply from: "https://raw.githubusercontent.com/Fed93/gradle-maven-plugin/${mavPluginVersion}/gradle-mavenizer.gradle"
 
 project.ext {

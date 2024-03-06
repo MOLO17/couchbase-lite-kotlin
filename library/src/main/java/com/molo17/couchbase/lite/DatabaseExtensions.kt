@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 MOLO17
+ * Copyright (c) 2024 MOLO17
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
 
 package com.molo17.couchbase.lite
 
+import com.couchbase.lite.Collection
+import com.couchbase.lite.CollectionChange
 import com.couchbase.lite.Database
 import com.couchbase.lite.DatabaseChange
 import com.couchbase.lite.DocumentChange
@@ -26,25 +28,30 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
 /**
- * Returns a [Flow] for receiving the changes that occur in the database.
- * Consider using databaseChangeFlow with Android Couchbase Lite Ktx SDK.
+ * Returns a [Flow] for receiving the changes that occur in the default collection of the database.
+ * The flow is nullable if the default collection doesn't exist
  *
- * @see Database.addChangeListener
+ * @see Collection.addChangeListener
  */
-fun Database.changesFlow(): Flow<DatabaseChange> = callbackFlow {
+fun Database.defaultCollectionChangesFlow(): Flow<CollectionChange>? = defaultCollection?.changesFlow()
+
+fun Collection.changesFlow(): Flow<CollectionChange> = callbackFlow {
     val token = addChangeListener { change -> trySendBlocking(change) }
-    awaitClose { removeChangeListener(token) }
+    awaitClose { token.remove() }
 }
 
 /**
- * Returns a [Flow] for receiving the changes that occur to the specified document.
- * Consider using documentChangeFlow with Android Couchbase Lite Ktx SDK.
+ * Returns a [Flow] for receiving the changes that occur to the specified document of the default collection.
+ * The flow is nullable if the default collection doesn't exist
  *
- * @see Database.addDocumentChangeListener
+ * @see Collection.addDocumentChangeListener
  */
-fun Database.documentChangesFlow(documentId: String): Flow<DocumentChange> = callbackFlow {
+fun Database.defaultCollectionDocumentChangesFlow(documentId: String): Flow<DocumentChange>? =
+    defaultCollection?.documentChangesFlow(documentId)
+
+fun Collection.documentChangesFlow(documentId: String): Flow<DocumentChange> = callbackFlow {
     val token = addDocumentChangeListener(documentId) { change -> trySendBlocking(change) }
-    awaitClose { removeChangeListener(token) }
+    awaitClose { token.remove() }
 }
 
 /**
