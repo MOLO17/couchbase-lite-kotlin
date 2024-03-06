@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 MOLO17
+ * Copyright (c) 2024 MOLO17
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ import kotlinx.coroutines.flow.callbackFlow
  */
 fun Replicator.changesFlow(): Flow<ReplicatorChange> = callbackFlow {
     val token = addChangeListener { change -> trySendBlocking(change) }
-    awaitClose { removeChangeListener(token) }
+    awaitClose { token.remove() }
 }
 
 /**
@@ -41,5 +41,5 @@ fun Replicator.changesFlow(): Flow<ReplicatorChange> = callbackFlow {
  */
 fun Replicator.documentReplicationFlow(): Flow<DocumentReplication> = callbackFlow {
     val token = addDocumentReplicationListener { replication -> trySendBlocking(replication) }
-    awaitClose { removeChangeListener(token) }
+    awaitClose { token.remove() }
 }
