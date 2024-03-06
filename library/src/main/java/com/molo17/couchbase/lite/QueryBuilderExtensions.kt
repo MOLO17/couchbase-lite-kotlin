@@ -30,9 +30,31 @@ inline infix fun Select.from(database: Database) = from(DataSource.database(data
 
 inline infix fun From.where(builder: WhereBuilder.() -> Expression) = where(WhereBuilder().builder())
 
+inline infix fun Joins.where(builder: WhereBuilder.() -> Expression) = where(WhereBuilder().builder())
+
+inline fun From.orderBy(builder: OrderByBuilder.() -> Unit) = orderBy(*OrderByBuilder().apply(builder).orderings())
+
+inline fun Joins.orderBy(builder: OrderByBuilder.() -> Unit) = orderBy(*OrderByBuilder().apply(builder).orderings())
+
 inline fun Where.orderBy(builder: OrderByBuilder.() -> Unit) = orderBy(*OrderByBuilder().apply(builder).orderings())
 
+inline fun GroupBy.orderBy(builder: OrderByBuilder.() -> Unit) = orderBy(*OrderByBuilder().apply(builder).orderings())
+
+inline fun Having.orderBy(builder: OrderByBuilder.() -> Unit) = orderBy(*OrderByBuilder().apply(builder).orderings())
+
+inline fun From.limit(count: Int, offset: Int? = null) =
+    limit(Expression.intValue(count), offset?.let(Expression::intValue))
+
+inline fun Joins.limit(count: Int, offset: Int? = null) =
+    limit(Expression.intValue(count), offset?.let(Expression::intValue))
+
 inline fun Where.limit(count: Int, offset: Int? = null) =
+    limit(Expression.intValue(count), offset?.let(Expression::intValue))
+
+inline fun GroupBy.limit(count: Int, offset: Int? = null) =
+    limit(Expression.intValue(count), offset?.let(Expression::intValue))
+
+inline fun Having.limit(count: Int, offset: Int? = null) =
     limit(Expression.intValue(count), offset?.let(Expression::intValue))
 
 inline fun OrderBy.limit(count: Int, offset: Int? = null) =
