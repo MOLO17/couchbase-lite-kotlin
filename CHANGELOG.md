@@ -1,5 +1,13 @@
 # Changelog
 
+### 1.3.0 - (24/04/2024)
+
+- Added collection support to changes flow
+- Updated libraries
+- Removed dependency from Android Framework in pure Kotlin module (thanks to @jeffdgr8 for the PR)
+- Removed explicit live query execution (thanks to @jeffdgr8 for the PR)
+- Improved QueryBuilder support (thanks to @jeffdgr8 for the PR)
+
 ### 1.2.1 - (12/04/2022)
 
 - Improved artifacts publishing

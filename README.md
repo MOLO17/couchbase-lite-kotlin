@@ -32,13 +32,13 @@ allprojects {
 And then to your module `build.gradle` file:
 
 ```groovy
-implementation "com.github.MOLO17.couchbase-lite-kotlin:kotlin:1.2.1"
+implementation "com.github.MOLO17.couchbase-lite-kotlin:kotlin:1.3.0"
 ```
 
 For Android use
 
 ```groovy
-implementation "com.github.MOLO17.couchbase-lite-kotlin:android-ktx:1.2.1"
+implementation "com.github.MOLO17.couchbase-lite-kotlin:android-ktx:1.3.0"
 ```
 
 ## Contents
@@ -74,7 +74,7 @@ You can even do more powerful querying:
 select("name", "type")
   .from(database)
   .where { 
-    ("type" equalTo "user" and "name" equalTo "Damian") or
+    ("type" equalTo "user" and "name" equalTo "Frederic") or
       ("type" equalTo "pet" and "name" like "Kitt") 
   }
   .orderBy { "name".ascending() }
@@ -88,8 +88,8 @@ a new Kotlin DSL:
 
 ```kotlin
 val document = MutableDocument {
-  "name" to "Damian"
-  "surname" to "Giusti"
+  "name" to "Frederic"
+  "surname" to "Monti"
   "age" to 24
   "pets" to listOf("Kitty", "Kitten", "Kitto")
   "type" to "user"
