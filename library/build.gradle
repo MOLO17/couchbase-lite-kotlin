@@ -12,6 +12,10 @@ dependencies {
     testImplementation couchbaseLite
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 def mavPluginVersion = '1.6.0'
 
 apply from: "https://raw.githubusercontent.com/Fed93/gradle-maven-plugin/${mavPluginVersion}/gradle-mavenizer.gradle"
